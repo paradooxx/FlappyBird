@@ -2,11 +2,14 @@
 #include "entity.h"
 #include <stdio.h>
 
+#define SCREEN_WIDTH 480
+#define SCREEN_HEIGHT 320
+
 int main(int argc, char *argv[]) 
 {
     Window window = {0};   // initializing all members to null
 
-    if(!window_init(&window, "Window", 480, 340))
+    if(!window_init(&window, "Flappy", SCREEN_WIDTH, SCREEN_HEIGHT))
     {
         printf("Windows not initialized");
         return 1;
@@ -25,13 +28,28 @@ int main(int argc, char *argv[])
         }
     };
 
+    Movement movement = {false};
+    Physics physics = 
+    {
+        .x = SCREEN_WIDTH / 2 - (ART_WIDTH * 10) / 2,
+        .y = SCREEN_HEIGHT - (ART_HEIGHT * 10),
+        .velocityX = 0,
+        .velocityY = 0,
+        .isJumping = false,
+    };
+    float groundLevel = SCREEN_HEIGHT - (ART_HEIGHT * 10);
+
+    init_entity(&physics, (float)SCREEN_HEIGHT);
+
     while(window.isRunning)
     {
-        window_handle_events(&window);
+        window_handle_events(&window, &movement);
         window_clear(&window, 0, 0, 0, 255);
 
         // rendering logics
-        render_art(window.renderer, &entity, 200, 120);
+        // move_entity(&x, &y, &speedX, &speedY, SCREEN_WIDTH, SCREEN_HEIGHT);
+        jump_entity(&physics, &movement, groundLevel);
+        render_art(window.renderer, &entity, physics.x, physics.y);
         // update screen
         window_display(&window);
     }

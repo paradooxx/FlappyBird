@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <stdbool.h>
+#include "entity.h"
 
 typedef struct 
 {
@@ -16,7 +17,7 @@ typedef struct
 
 bool window_init(Window* window, const char* title, int width, int height);  // initializing window
 
-void window_handle_events(Window* window); // handling window events
+void window_handle_events(Window* win, Movement* movement); // handling window events
 
 void window_clear(Window* window, Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha); // clear screen with a color
 

@@ -1,4 +1,5 @@
 #include "window.h"
+#include "entity.h"
 #include <stdio.h>
 
 bool window_init(Window* win, const char* title, int width, int height)
@@ -48,7 +49,7 @@ bool window_init(Window* win, const char* title, int width, int height)
     return true;
 }
 
-void window_handle_events(Window* win)
+void window_handle_events(Window* win, Movement* movement)
 {
     SDL_Event event;
     while(SDL_PollEvent(&event))
@@ -59,9 +60,23 @@ void window_handle_events(Window* win)
                 win->isRunning = false;
                 break;
             case SDL_KEYDOWN:
-                if(event.key.keysym.sym == SDLK_ESCAPE)
+                switch(event.key.keysym.sym)
                 {
-                    win->isRunning = false;
+                    case SDLK_ESCAPE:
+                        win->isRunning = false;
+                        break;
+                    case SDLK_SPACE:  // Jump key
+                        if (!movement->jump) {  // Prevent repeated jumping
+                            movement->jump = true;
+                        }
+                }
+                break;
+            case SDL_KEYUP:
+                switch (event.key.keysym.sym)
+                {
+                    case SDLK_SPACE:
+                        movement->jump = false;
+                        break;
                 }
                 break;
         }
