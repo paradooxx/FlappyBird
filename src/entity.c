@@ -46,7 +46,7 @@ void move_entity(int* x, int* y, int* speedX, int* speedY, int screenWidth, int 
     }
 }
 
-void jump_entity(Physics* physics, Movement* movement, float groundLevel)
+void jump_entity(Physics* physics, Movement* movement, float groundLevel, float skyLevel)
 {
     float gravity = 0.1f;
     float jumpStrength = -3.0f;
@@ -66,6 +66,13 @@ void jump_entity(Physics* physics, Movement* movement, float groundLevel)
     if (physics->y >= groundLevel) 
     {
         physics->y = groundLevel;
+        physics->velocityY = 0;
+    }
+
+    // checking ground collision
+    if (physics->y <= skyLevel) 
+    {
+        physics->y = skyLevel;
         physics->velocityY = 0;
     }
 }

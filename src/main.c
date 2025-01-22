@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
         .isJumping = false,
     };
     float groundLevel = SCREEN_HEIGHT - (ART_HEIGHT * 10);
+    float skyLevel = 0.0f;
 
     init_entity(&physics, (float)SCREEN_HEIGHT);
 
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
 
         // rendering logics
         // move_entity(&x, &y, &speedX, &speedY, SCREEN_WIDTH, SCREEN_HEIGHT);
-        jump_entity(&physics, &movement, groundLevel);
+        jump_entity(&physics, &movement, groundLevel, skyLevel);
         render_art(window.renderer, &entity, physics.x, physics.y);
         // update screen
         window_display(&window);

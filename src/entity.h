@@ -33,4 +33,4 @@ void render_art(SDL_Renderer* renderer, Entity* entity, int x, int y);
 
 void move_entity(int* x, int* y, int* speedX, int* speedY, int screenWidth, int screenHeight);
 
-void jump_entity(Physics* physics, Movement* movement, float groundLevel);
+void jump_entity(Physics* physics, Movement* movement, float groundLevel, float skyLevel);
