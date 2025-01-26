@@ -42,22 +42,27 @@ void move_obstacle(Obstacle* ob, float moveSpeed)
 
 bool check_collision(Obstacle* obstacle, Physics* entityPhysics, int entityWidth, int entityHeight)
 {
-    int rect2x = obstacle->x;
     int rect2y = obstacle->height + obstacle->spacing;
-    int rect2width = obstacle->width;
     int rect2height = 320 - obstacle->height - obstacle->spacing;
 
-    bool x_overlap = (entityPhysics->x + entityWidth) >= obstacle->x &&
-                (entityPhysics->x + entityWidth) <= (obstacle->x + obstacle->width) ||
-                (entityPhysics->x + entityWidth) >= rect2x &&
-                (entityPhysics->x + entityWidth) <= (rect2x + rect2width) ;
+    bool x_overlap1 = (entityPhysics->x + entityWidth) >= obstacle->x &&
+                (entityPhysics->x + entityWidth) < (obstacle->x + obstacle->width) ;
 
-    bool y_overlap = entityPhysics->y <= (obstacle->y + obstacle->width) &&
-                entityPhysics->y >= obstacle->y ||
-                (entityPhysics->y + entityHeight) >= rect2y &&
-                (entityPhysics->y + entityHeight) <= (rect2y + rect2height) ;
+    bool x_overlap2 = entityPhysics->x  >= obstacle->x &&
+                entityPhysics->x < (obstacle->x + obstacle->width);
+
+    bool y_overlap1 =  entityPhysics->y <= (obstacle->y + obstacle->height) &&
+                entityPhysics->y > obstacle->y;
+
+    bool y_overlap2 = (entityPhysics->y + entityHeight) >= rect2y &&
+                (entityPhysics->y + entityHeight) < (rect2y + rect2height) ;  
 
 
-    return x_overlap && y_overlap;
+    bool collision_case1 = x_overlap1 && y_overlap1;
+    bool collision_case2 = x_overlap1 && y_overlap2;
+    bool collision_case3 = x_overlap2 && y_overlap1;
+    bool collision_case4 = x_overlap2 && y_overlap2;
+
+    return collision_case1 || collision_case2 || collision_case3 || collision_case4;
 }
 

@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         .y = 0,          // ypos
         .width = 40,       // rect width
         .height = 100,     // rect height
-        .spacing = 50      // space between the rectangles
+        .spacing = 200      // space between the rectangles
     };
 
     Movement movement = {false};
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
         render_bird(window.renderer, &entity, physics.x, physics.y);
         jump_entity(&physics, &movement, groundLevel, skyLevel);
         render_obstacle(window.renderer, &obstacle);
-        move_obstacle(&obstacle, 0.5f);
+        move_obstacle(&obstacle, 0.2f);
         if(check_collision(&obstacle, &physics, ART_WIDTH * 3, 3 * ART_HEIGHT))
         {
             printf("Collided\n");
