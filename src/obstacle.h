@@ -1,22 +1,19 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include "entity.h"
 
-typedef struct
-{
-    // for art
-    Uint32** obstacleArt;
-    int width;
-    int height;
+#define OBSTACLE_HEIGHT 320
+#define OBSTACLE_WIDTH 60
 
-    // for movement
-    int changey1;
-    int changey2;
+typedef struct {
+    int x, y;
+    int width, height;
+    int spacing;
+} Obstacle;
 
-}Obstacle;
+void init_obstacle(Physics* physics, float height);
 
-void init_obstacle(Obstacle* obstacle, int width, int height);
+void render_obstacle(SDL_Renderer* renderer, Obstacle* obstacle);
 
-void render_obstacle(SDL_Renderer* renderer, Obstacle* obstacle, int x, int y);
-
-void free_obstacle(Obstacle* obstacle);
+void move_obstacle(Movement* movement);

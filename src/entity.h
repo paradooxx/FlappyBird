@@ -8,7 +8,7 @@
 
 typedef struct
 {
-    Uint32** art;
+    Uint32 art[ART_WIDTH][ART_HEIGHT];
 }Entity;
 
 typedef struct

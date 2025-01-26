@@ -67,7 +67,8 @@ void window_handle_events(Window* win, Movement* movement)
                         win->isRunning = false;
                         break;
                     case SDLK_SPACE:  // Jump key
-                        if (!movement->jump) {  // Prevent repeated jumping
+                        if (!movement->jump) 
+                        {  // Prevent repeated jumping
                             movement->jump = true;
                         }
                 }

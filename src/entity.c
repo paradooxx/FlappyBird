@@ -15,8 +15,8 @@ void render_art(SDL_Renderer* renderer, Entity* entity, int x, int y)
             SDL_SetRenderDrawColor(renderer, r, g, b, SDL_ALPHA_OPAQUE);
             SDL_Rect rectangle = 
             {
-                x + j * 10,
-                y + i * 10,
+                x + j * 2,
+                y + i * 2,
                 10,
                 10
             };
@@ -52,7 +52,7 @@ void jump_entity(Physics* physics, Movement* movement, float groundLevel, float 
     float jumpStrength = -3.0f;
 
     // set in the sdl event
-    if(movement->jump)
+    if(movement->jump && physics->velocityY >= 0)
     {
         physics->velocityY = jumpStrength;  
         movement->jump = false;
@@ -69,7 +69,7 @@ void jump_entity(Physics* physics, Movement* movement, float groundLevel, float 
         physics->velocityY = 0;
     }
 
-    // checking sky collision
+    // checking ground collision
     if (physics->y <= skyLevel) 
     {
         physics->y = skyLevel;
