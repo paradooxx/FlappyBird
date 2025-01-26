@@ -2,13 +2,6 @@
 
 void init_obstacle(Physics* physics, float height)
 {
-    // obstacle->width = width;
-    // obstacle->height = height;
-    // obstacle->obstacleArt = (Uint32**)malloc(height * sizeof(Uint32*));
-    // for(int i = 0 ; i < height ; i++)
-    // {
-    //     obstacle->obstacleArt[i] = (Uint32**)malloc(width * sizeof(Uint32*));
-    // }
     physics->y = height;
     physics->velocityX = 0.0f;
 }
@@ -38,6 +31,11 @@ void render_obstacle(SDL_Renderer* renderer, Obstacle* obstacle)
 void move_obstacle(Obstacle* ob, float moveSpeed)
 {
     ob->x -= moveSpeed;
+
+    if(ob->x <= (0 - ob->width))
+    {
+        ob->x = 480;
+    }
 }
 
 bool check_collision(Obstacle* obstacle, Physics* entityPhysics, int entityWidth, int entityHeight)

@@ -2,12 +2,27 @@
 #include "entity.h"
 #include "obstacle.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define SCREEN_WIDTH 480
 #define SCREEN_HEIGHT 320
 
+#define MIN_SPACING_BETN_OBSTACLES 60
+#define MAX_SPACING_BETN_OBSTACLES 180
+#define MIN_OBSTACLE_HEIGHT 50
+#define MAX_OBSTACLE_HEIGHT 140
+
+int get_random_int(int min, int max, int gap)
+{
+    int range = (max - min) / gap + 1;
+    int randomIndex = rand() % range;
+    return min + randomIndex * gap;
+}
+
 int main(int argc, char *argv[]) 
 {
+    srand(time(NULL));
     Window window = {0};   // initializing all members to null
 
     if(!window_init(&window, "Flappy", SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -29,12 +44,29 @@ int main(int argc, char *argv[])
         }
     };
 
-    Obstacle obstacle = {
-        .x = 350,          // xpos
-        .y = 0,          // ypos
-        .width = 40,       // rect width
-        .height = 100,     // rect height
-        .spacing = 200      // space between the rectangles
+    Obstacle obstacle[3] = 
+    {
+        {
+            .x = 350,
+            .y = 0,    
+            .width = 40,
+            .height = get_random_int(MIN_OBSTACLE_HEIGHT, MAX_OBSTACLE_HEIGHT, 10),
+            .spacing = get_random_int(MIN_SPACING_BETN_OBSTACLES, MAX_SPACING_BETN_OBSTACLES, 10)
+        },
+        {    
+            .x = 550,
+            .y = 0,    
+            .width = 40,
+            .height = get_random_int(MIN_OBSTACLE_HEIGHT, MAX_OBSTACLE_HEIGHT, 10),
+            .spacing = get_random_int(MIN_SPACING_BETN_OBSTACLES, MAX_SPACING_BETN_OBSTACLES, 10)
+        },
+        {
+            .x = 700,
+            .y = 0,    
+            .width = 40,
+            .height = get_random_int(MIN_OBSTACLE_HEIGHT, MAX_OBSTACLE_HEIGHT, 10),
+            .spacing = get_random_int(MIN_SPACING_BETN_OBSTACLES, MAX_SPACING_BETN_OBSTACLES, 10)
+        }
     };
 
     Movement movement = {false};
@@ -59,11 +91,17 @@ int main(int argc, char *argv[])
         
         render_bird(window.renderer, &entity, physics.x, physics.y);
         jump_entity(&physics, &movement, groundLevel, skyLevel);
-        render_obstacle(window.renderer, &obstacle);
-        move_obstacle(&obstacle, 0.2f);
+
+        for(int i = 0 ; i < 3 ; i++)
+        {
+            render_obstacle(window.renderer, &obstacle[i]);
+            move_obstacle(&obstacle[i], 0.5f);
+        }
+
         if(check_collision(&obstacle, &physics, ART_WIDTH * 3, 3 * ART_HEIGHT))
         {
             printf("Collided\n");
+            window.isRunning = false; 
         }
         // update screen
         window_display(&window);
