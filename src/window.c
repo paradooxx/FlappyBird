@@ -1,5 +1,6 @@
 #include "window.h"
 #include "entity.h"
+#include "obstacle.h"
 #include <stdio.h>
 
 bool window_init(Window* win, const char* title, int width, int height)

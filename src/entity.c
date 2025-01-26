@@ -69,7 +69,7 @@ void jump_entity(Physics* physics, Movement* movement, float groundLevel, float 
         physics->velocityY = 0;
     }
 
-    // checking ground collision
+    // checking sky collision
     if (physics->y <= skyLevel) 
     {
         physics->y = skyLevel;

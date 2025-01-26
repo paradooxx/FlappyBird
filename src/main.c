@@ -1,5 +1,6 @@
 #include "window.h"
 #include "entity.h"
+#include "renderer.h"
 #include <stdio.h>
 
 #define SCREEN_WIDTH 480
@@ -15,16 +16,20 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Entity entity = {
-        .art = {
-            {0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000}, // Red
-            {0xFFFFA500, 0xFFFFA500, 0xFFFFA500, 0xFFFFA500, 0xFFFFA500, 0xFFFFA500, 0xFFFFA500, 0xFFFFA500}, // Orange
-            {0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00}, // Yellow
-            {0xFF008000, 0xFF008000, 0xFF008000, 0xFF008000, 0xFF008000, 0xFF008000, 0xFF008000, 0xFF008000}, // Green
-            {0xFF0000FF, 0xFF0000FF, 0xFF0000FF, 0xFF0000FF, 0xFF0000FF, 0xFF0000FF, 0xFF0000FF, 0xFF0000FF}, // Blue
-            {0xFF4B0082, 0xFF4B0082, 0xFF4B0082, 0xFF4B0082, 0xFF4B0082, 0xFF4B0082, 0xFF4B0082, 0xFF4B0082}, // Indigo
-            {0xFFEE82EE, 0xFFEE82EE, 0xFFEE82EE, 0xFFEE82EE, 0xFFEE82EE, 0xFFEE82EE, 0xFFEE82EE, 0xFFEE82EE}, // Violet
-            {0xFF000000, 0xFF000000, 0xFF000000, 0xFF000000, 0xFF000000, 0xFF000000, 0xFF000000, 0xFF000000}  // Black
+    SDL_Renderer* sdlRenderer = SDL_CreateRenderer(window.window, -1, SDL_RENDERER_ACCELERATED);
+    Renderer renderer = {sdlRenderer, 10};
+
+    Entity entity = {0};
+
+    int artWidth = 8;
+    int artHeight = 8;
+    entity.art = (Uint32**)malloc(artHeight * sizeof(Uint32*));
+    for (int i = 0; i < artHeight; i++) 
+    {
+        entity.art[i] = (Uint32*)malloc(artWidth * sizeof(Uint32));
+        for (int j = 0; j < artWidth; j++) 
+        {
+            entity.art[i][j] = 0xFF0000FF; //  blue for testing
         }
     };
 
@@ -50,7 +55,7 @@ int main(int argc, char *argv[])
         // rendering logics
         // move_entity(&x, &y, &speedX, &speedY, SCREEN_WIDTH, SCREEN_HEIGHT);
         jump_entity(&physics, &movement, groundLevel, skyLevel);
-        render_art(window.renderer, &entity, physics.x, physics.y);
+        render_rectangle(&renderer, &entity.art, artWidth, artHeight, physics.x, physics.y);
         // update screen
         window_display(&window);
     }
