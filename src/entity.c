@@ -1,7 +1,8 @@
 #include "entity.h"
 #include "window.h"
+#include "obstacle.h"
 
-void render_art(SDL_Renderer* renderer, Entity* entity, int x, int y)
+void render_bird(SDL_Renderer* renderer, Entity* entity, int x, int y)
 {
     for(int i = 0 ; i < ART_HEIGHT ; i++)
     {
@@ -49,7 +50,7 @@ void move_entity(int* x, int* y, int* speedX, int* speedY, int screenWidth, int 
 void jump_entity(Physics* physics, Movement* movement, float groundLevel, float skyLevel)
 {
     float gravity = 0.1f;
-    float jumpStrength = -3.0f;
+    float jumpStrength = -2.5f;
 
     // set in the sdl event
     if(movement->jump && physics->velocityY >= 0)

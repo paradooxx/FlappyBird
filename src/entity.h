@@ -29,7 +29,7 @@ struct Window;
 
 void init_entity(Physics* physics, float height);
 
-void render_art(SDL_Renderer* renderer, Entity* entity, int x, int y);
+void render_bird(SDL_Renderer* renderer, Entity* entity, int x, int y);
 
 void move_entity(int* x, int* y, int* speedX, int* speedY, int screenWidth, int screenHeight);
 

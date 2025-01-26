@@ -33,35 +33,38 @@ int main(int argc, char *argv[])
         .x = 350,          // xpos
         .y = 0,          // ypos
         .width = 40,       // rect width
-        .height = 250,     // rect height
+        .height = 100,     // rect height
         .spacing = 50      // space between the rectangles
     };
 
     Movement movement = {false};
     Physics physics = 
     {
-        .x = SCREEN_WIDTH / 2 - (ART_WIDTH * 10) / 2,
-        .y = SCREEN_HEIGHT - (ART_HEIGHT * 10),
+        .x = 100,
+        .y = 100,
         .velocityX = 0,
         .velocityY = 0,
         .isJumping = false,
     };
+
     float groundLevel = SCREEN_HEIGHT - (ART_HEIGHT * 3);
     float skyLevel = 0.0f;
 
     init_entity(&physics, (float)SCREEN_HEIGHT);
-    init_obstacle(&physics, (float)OBSTACLE_HEIGHT);
 
     while(window.isRunning)
     {
         window_handle_events(&window, &movement);
         window_clear(&window, 0, 0, 0, 255);
-
-        // rendering logics
-        // move_entity(&x, &y, &speedX, &speedY, SCREEN_WIDTH, SCREEN_HEIGHT);
+        
+        render_bird(window.renderer, &entity, physics.x, physics.y);
         jump_entity(&physics, &movement, groundLevel, skyLevel);
-        render_art(window.renderer, &entity, physics.x, physics.y);
         render_obstacle(window.renderer, &obstacle);
+        move_obstacle(&obstacle, 0.5f);
+        if(check_collision(&obstacle, &physics, ART_WIDTH * 3, 3 * ART_HEIGHT))
+        {
+            printf("Collided\n");
+        }
         // update screen
         window_display(&window);
     }
