@@ -2,43 +2,44 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build SDL2 Project",
+            "label": "CMake Build",
             "type": "shell",
-            "command": "gcc",
+            "command": "cmake",
             "args": [
-                "-I",
-                "${workspaceFolder}/src/include",
-                "${workspaceFolder}/src/*.c",
-                "-L",
-                "${workspaceFolder}/src/lib",
-                "-lmingw32",
-                "-lSDL2main",
-                "-lSDL2",
-                "-o",
-                "${workspaceFolder}/app.exe",
-                "-std=c11"
+                "--build",
+                "${workspaceFolder}/build"
             ],
             "group": {
-                "kind": "build",
-                "isDefault": true
+                "kind": "build"
             }
         },
         {
-            "label": "Run SDL2 Project",
+            "label": "CMake Configure",
             "type": "shell",
-            "command": "${workspaceFolder}/app.exe",
-            "group": "build",
-            "problemMatcher": []
+            "command": "cmake",
+            "args": [
+                "-S",
+                "${workspaceFolder}",
+                "-B",
+                "${workspaceFolder}/build",
+                "-G",
+                "MinGW Makefiles"
+            ]
+        },
+        {
+            "label": "Run Game",
+            "type": "shell",
+            "command": "${workspaceFolder}/build/flappybird.exe",
+            "group": "build"
         },
         {
             "label": "Build and Run",
             "dependsOrder": "sequence",
-            "dependsOn": ["Build SDL2 Project", "Run SDL2 Project"],
+            "dependsOn": ["CMake Build", "Run Game"],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "problemMatcher": []
+            }
         }
     ]
 }

@@ -22,7 +22,7 @@ void render_rectangle(Renderer* renderer, Uint32** art, int artWidth, int artHei
             // SDL_RenderFillRect(renderer->sdlRenderer, &rectangle);
 
             if (SDL_RenderFillRect(renderer->sdlRenderer, &rectangle) < 0) {
-                printf("Failed to render rect: %s\n", SDL_GetError());
+                // printf("Failed to render rect: %s\n", SDL_GetError());
             }
         }
 
